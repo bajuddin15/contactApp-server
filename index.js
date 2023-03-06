@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import path from "path";
+import cors from 'cors';
 import connectDB from "./config/db.js";
 
 import userRoutes from "./routes/user.js";
@@ -12,6 +13,7 @@ connectDB();
 
 // Error Handling middlewares
 app.use(express.json());
+app.use(cors());
 
 // configure all routes
 app.use("/api/users", userRoutes);
@@ -28,6 +30,7 @@ if (process.env.NODE_ENV === "production") {
   );
 } else {
   app.get("/", (req, res) => {
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     res.send("API is running..");
   });
 }
